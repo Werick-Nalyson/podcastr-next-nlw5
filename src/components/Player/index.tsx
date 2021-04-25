@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 
 import { useContext, useEffect, useRef } from 'react'
 
-import { playerContext } from '../../contexts/PlayerContext'
+import { usePlayer } from '../../contexts/PlayerContext'
 
 export default function Player() {
     const audioRef = useRef<HTMLAudioElement>()
@@ -16,8 +16,12 @@ export default function Player() {
         currentEpisodeIndex,
         isPlaying,
         togglePlay,
-        setPlayingState
-    } = useContext(playerContext)
+        setPlayingState,
+        playNext,
+        playPrevious,
+        hasNext,
+        hasPrevious
+    } = usePlayer()
 
     useEffect(() => {
         if (!audioRef.current) {
@@ -89,7 +93,7 @@ export default function Player() {
                     <button type="button" disabled={!episode}>
                         <img src="/shuffle.svg" alt="Embaralhar" />
                     </button>
-                    <button type="button" disabled={!episode}>
+                    <button type="button" onClick={playPrevious} disabled={!episode || !hasPrevious}>
                         <img src="/play-previous.svg" alt="Tocar anterior" />
                     </button>
                     <button
@@ -100,9 +104,10 @@ export default function Player() {
                     >
                         {isPlaying
                             ? <img src="/pause.svg" alt="Tocar" />
-                            : <img src="/play.svg" alt="Tocar" />}
+                            : <img src="/play.svg" alt="Tocar" />
+                        }
                     </button>
-                    <button type="button" disabled={!episode}>
+                    <button type="button" onClick={playNext} disabled={!episode || !hasNext}>
                         <img src="/play-next.svg" alt="Tocar próxima" />
                     </button>
                     <button type="button" disabled={!episode}>

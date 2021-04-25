@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import { useContext } from 'react'
-import { playerContext } from '../contexts/PlayerContext'
+import { usePlayer } from '../contexts/PlayerContext'
 
 import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
@@ -31,7 +31,9 @@ type HomeProps = {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const { play } = useContext(playerContext)
+  const { playList } = usePlayer()
+
+  const episodeList = [...latestEpisodes, ...allEpisodes]
 
   return (
     <div className={styles.homepage}>
@@ -39,7 +41,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
         <h2>Últimos lançamentos</h2>
 
         <ul>
-          {latestEpisodes.map(episode => {
+          {latestEpisodes.map((episode, index) => {
             return (
               <li key={episode.id}>
                 <Image
@@ -62,7 +64,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
                 <button
                   type="button"
-                  onClick={() => play(episode)}
+                  onClick={() => playList(episodeList, index)}
                 >
                   <img src="/play-green.svg" alt="Tocar episódio" />
                 </button>
@@ -112,6 +114,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <td>
                     <button
                       type="button"
+                      onClick={() => playList(episodeList, index + latestEpisodes.length)}
                     >
                       <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
