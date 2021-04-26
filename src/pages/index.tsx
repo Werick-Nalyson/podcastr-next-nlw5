@@ -1,8 +1,8 @@
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
+import Head from 'next/head'
 
-import { useContext } from 'react'
 import { usePlayer } from '../contexts/PlayerContext'
 
 import { format, parseISO } from 'date-fns'
@@ -37,6 +37,11 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
   return (
     <div className={styles.homepage}>
+
+      <Head>
+        <title>Home | Podcastr</title>
+      </Head>
+
       <section className={styles.latestEpisodes}>
         <h2>Últimos lançamentos</h2>
 
@@ -54,7 +59,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
                 <div className={styles.episodeDetails}>
                   <Link href={`episodes/${episode.id}`}>
-                    <a href="">{episode.title}</a>
+                    <a>{episode.title}</a>
                   </Link>
 
                   <p>{episode.members}</p>
@@ -104,7 +109,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
                   <td>
                     <Link href={`/episodes/${episode.id}`}>
-                      <a href="">{episode.title}</a>
+                      <a>{episode.title}</a>
                     </Link>
                   </td>
 
